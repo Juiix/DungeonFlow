@@ -75,12 +75,12 @@ Install via NuGet:
 
 ### .NET CLI
 ```
-dotnet add package EntitiesDb
+dotnet add package DungeonFlow
 ````
 
 ### Package Reference
 ```xml
 <ItemGroup>
-  <PackageReference Include="EntitiesDb" Version="*" />
+  <PackageReference Include="DungeonFlow" Version="*" />
 </ItemGroup>
 ```
