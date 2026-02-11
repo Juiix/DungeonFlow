@@ -14,13 +14,13 @@ Room/Hall configs are the building blocks of each dungeon. They define the shape
   * `GetHeight` - The height of the hall when directed up
 
 # Steps
-`IGenerationStep` is a specific alteration to the dungeon graph.
+`IGenerationStep` is an alteration to the dungeon graph.
 
 Pre-built steps are:
 * **StartStep** - Adds 1 node to the center of the graph
-* **RoomStep** - Adds 1 node to all nodes returned in its query
-* **GoalStep** - Adds a random path of nodes ending with a goal node, starting at the first node of its query
-* **DeadEndStep** - Adds varialbe length dead ends to nodes returned in its query
+* **RoomStep** - Adds 1 node to all query nodes
+* **GoalStep** - Adds a random path of nodes ending with a goal node, starting at the first query node
+* **DeadEndStep** - Adds variable length dead ends to query nodes
 
 # Sample
 ```csharp

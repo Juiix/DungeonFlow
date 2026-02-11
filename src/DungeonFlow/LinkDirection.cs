@@ -6,5 +6,5 @@ public enum LinkDirection : byte
 	Up,
 	Left,
 	Down,
-	None
+	Undefined
 }

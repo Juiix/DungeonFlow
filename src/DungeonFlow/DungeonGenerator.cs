@@ -15,24 +15,26 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 		Graph.Clear();
 	}
 
-	public ushort? TryExpand(int roomId, ushort parentNodeId, LinkDirection? direction = null)
+	public bool TryExpand(out ushort nodeId, int roomId, ushort parentNodeId, LinkDirection direction = LinkDirection.Undefined)
 	{
 		ref readonly var parent = ref Graph.GetNode(parentNodeId);
-		direction ??= (LinkDirection)Random.Next(0, 4);
+		if (direction == LinkDirection.Undefined)
+			direction = (LinkDirection)Random.Next(0, 4);
 		var roomConfig = Config.GetRoom(roomId);
 		var hallId = roomConfig.GetHall(Random);
 		var hallConfig = Config.GetHall(hallId);
-		var (room, hall) = CreateLinkedRoom(in parent, direction.Value, roomConfig, hallConfig);
+		var (room, hall) = CreateLinkedRoom(in parent, direction, roomConfig, hallConfig);
 		if (IsValidRect(room, roomConfig) && IsValidRect(hall))
 		{
-			Graph.AddNode(out var childIndex, room, roomId, parentNodeId);
-			Graph.AddLink(out _, hall, hallId, parentNodeId, childIndex);
-			return childIndex;
+			Graph.AddNode(out nodeId, room, roomId, parentNodeId);
+			Graph.AddLink(out _, hall, hallId, parentNodeId, nodeId);
+			return true;
 		}
-		return null;
+		nodeId = ushort.MaxValue;
+		return false;
 	}
 
-	public ushort? TryPlace(int roomId, DungeonInt2 center)
+	public bool TryPlace(out ushort nodeId, int roomId, DungeonInt2 center)
 	{
 		var roomConfig = Config.GetRoom(roomId);
 		var roomWidth = roomConfig.GetWidth(Random);
@@ -41,10 +43,11 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 		var room = new DungeonRect(center - roomSize / 2, roomSize);
 		if (IsValidRect(room))
 		{
-			Graph.AddNode(out var childIndex, room, roomId);
-			return childIndex;
+			Graph.AddNode(out nodeId, room, roomId);
+			return true;
 		}
-		return null;
+		nodeId = ushort.MaxValue;
+		return false;
 	}
 
 	public (DungeonRect Room, DungeonRect Hall) CreateLinkedRoom(in DungeonNode parentNode, LinkDirection direction, RoomConfig dstRoomConfig, HallConfig hallConfig)

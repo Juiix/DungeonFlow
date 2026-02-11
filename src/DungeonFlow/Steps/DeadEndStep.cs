@@ -34,10 +34,9 @@ public sealed class DeadEndStep(int minLength, int maxLength, int maxDepth, int 
 				while (tries++ < 100)
 				{
 					var roomId = _roomIds[generator.Random.Next(0, _roomIds.Length)];
-					var nodeId = generator.TryExpand(roomId, currentNodeId);
-					if (nodeId != null)
+					if (generator.TryExpand(out var nodeId, roomId, currentNodeId))
 					{
-						currentNodeId = nodeId.Value;
+						currentNodeId = nodeId;
 						break;
 					}
 				}

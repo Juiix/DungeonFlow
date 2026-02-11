@@ -2,9 +2,9 @@
 
 namespace DungeonFlow;
 
-public sealed class RoomStep(LinkDirection? direction, int[] roomIds, NodeQuery target) : IGenerationStep
+public sealed class RoomStep(LinkDirection direction, int[] roomIds, NodeQuery target) : IGenerationStep
 {
-	private readonly LinkDirection? _direction = direction;
+	private readonly LinkDirection _direction = direction;
 	private readonly int[] _roomIds = roomIds;
 	private readonly NodeQuery _target = target;
 	private readonly Stack<(ushort NodeIndex, int Depth)> _stack = [];
@@ -17,8 +17,7 @@ public sealed class RoomStep(LinkDirection? direction, int[] roomIds, NodeQuery 
 			while (tries++ < 100)
 			{
 				var roomId = generator.Random.Next(0, _roomIds.Length);
-				var nodeIndex = generator.TryExpand(roomId, parentIndex, _direction);
-				if (nodeIndex != null)
+				if (generator.TryExpand(out _, roomId, parentIndex, _direction))
 					break;
 			}
 		}

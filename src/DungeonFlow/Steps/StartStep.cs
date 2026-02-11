@@ -11,8 +11,7 @@ public sealed class StartStep(int[] roomIds) : IGenerationStep
 		{
 			var roomId = generator.Random.Next(0, _roomIds.Length);
 			var center = generator.Graph.Size / 2;
-			var nodeIndex = generator.TryPlace(roomId, center);
-			if (nodeIndex != null)
+			if (generator.TryPlace(out _, roomId, center))
 				break;
 		}
 		return true;

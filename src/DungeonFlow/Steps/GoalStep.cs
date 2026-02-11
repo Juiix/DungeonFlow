@@ -31,13 +31,12 @@ public sealed class GoalStep(int maxDepth, int goalRoomId, int[] pathRoomIds, No
 			var roomId = depth + 1 == _maxDepth
 				? _goalRoomId
 				: _pathRoomIds[generator.Random.Next(0, _pathRoomIds.Length)];
-			var nodeId = generator.TryExpand(roomId, currentNodeId);
-			if (nodeId == null)
+			if (!generator.TryExpand(out var nodeId, roomId, currentNodeId))
 				continue;
 
 			index++;
 			depth++;
-			_path[index] = nodeId.Value;
+			_path[index] = nodeId;
 			_tries[index] = 0;
 		}
 
