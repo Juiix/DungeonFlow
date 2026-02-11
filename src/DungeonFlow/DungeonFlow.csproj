@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Authors>Tucker Ulrich</Authors>
+    <Company>Unnamed Studios, LLC</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>2026, Unnamed Studios, LLC</Copyright>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <Version>$(VersionPrefix)</Version>
+    <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+    <FileVersion>$(VersionPrefix)</FileVersion>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>DungeonFlow</Title>
+    <Product>DungeonFlow</Product>
+    <PackageId>DungeonFlow</PackageId>
+  </PropertyGroup>
+
+</Project>
