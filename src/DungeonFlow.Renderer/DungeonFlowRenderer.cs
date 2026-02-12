@@ -16,15 +16,15 @@ namespace DungeonFlow.Renderer
 			];
 
 			HallConfig[] halls = [
-				new(r => 4, r => r.Next(4, 6)),
+				new(r => 4, r => r.Next(12, 24)),
 				new(r => 6, r => r.Next(8, 12)),
 			];
 
 			IGenerationStep[] steps = [
 				new StartStep([0]),
-				new GoalStep(28, 2, [1], NodeQuery.First),
-				new GoalStep(14, 2, [1], NodeQuery.First),
-				new GoalStep(6, 2, [1], new NodeQuery(QueryDirection.Forward, 2, 4, 1)),
+				new GoalStep(28, [2], [1], NodeQuery.First),
+				new GoalStep(14, [2], [1], NodeQuery.First),
+				new GoalStep(6, [2], [1], new NodeQuery(QueryDirection.Forward, 2, 4, 1)),
 				new DeadEndStep(1, 2, 13, 50, [1], new NodeQuery(QueryDirection.Forward, 1, 13, int.MaxValue))
 			];
 

@@ -1,9 +1,9 @@
 ﻿namespace DungeonFlow;
 
-public sealed class GoalStep(int maxDepth, int goalRoomId, int[] pathRoomIds, NodeQuery target) : IGenerationStep
+public sealed class GoalStep(int maxDepth, int[] goalRoomIds, int[] pathRoomIds, NodeQuery target) : IGenerationStep
 {
 	private readonly int _maxDepth = maxDepth;
-	private readonly int _goalRoomId = goalRoomId;
+	private readonly int[] _goalRoomIds = goalRoomIds;
 	private readonly int[] _pathRoomIds = pathRoomIds;
 	private readonly NodeQuery _target = target;
 	private readonly ushort[] _path = new ushort[maxDepth + 1];
@@ -28,9 +28,10 @@ public sealed class GoalStep(int maxDepth, int goalRoomId, int[] pathRoomIds, No
 				continue;
 			}
 
-			var roomId = depth + 1 == _maxDepth
-				? _goalRoomId
-				: _pathRoomIds[generator.Random.Next(0, _pathRoomIds.Length)];
+			var roomIds = depth + 1 == _maxDepth
+				? _goalRoomIds
+				: _pathRoomIds;
+			var roomId = roomIds[generator.Random.Next(0, roomIds.Length)];
 			if (!generator.TryExpand(out var nodeId, roomId, currentNodeId))
 				continue;
 
