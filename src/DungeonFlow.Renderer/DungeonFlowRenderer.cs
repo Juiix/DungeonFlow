@@ -10,9 +10,9 @@ namespace DungeonFlow.Renderer
 		private void Generate_Click(object sender, EventArgs e)
 		{
 			RoomConfig[] rooms = [
-				new(r => r.Next(16, 16), r => r.Next(14, 16), r => 0, GetRandomHallPosition, null),
-				new(r => r.Next(18, 24), r => r.Next(18, 24), r => 0, GetRandomHallPosition, null),
-				new(r => 32, r => 32, r => 1, GetRandomHallPosition, null),
+				new(r => r.Next(16, 16), r => r.Next(14, 16), r => 0, r => (LinkDirection)r.Next(0, 4), GetRandomHallPosition, null),
+				new(r => r.Next(18, 24), r => r.Next(18, 24), r => 0, r => (LinkDirection)r.Next(0, 4), GetRandomHallPosition, null),
+				new(r => 32, r => 32, r => 1, r => (LinkDirection)r.Next(0, 4), GetRandomHallPosition, null),
 			];
 
 			HallConfig[] halls = [

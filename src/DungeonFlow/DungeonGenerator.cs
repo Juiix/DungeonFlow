@@ -18,9 +18,9 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 	public bool TryExpand(out ushort nodeId, int roomId, ushort parentNodeId, LinkDirection direction = LinkDirection.Undefined)
 	{
 		ref readonly var parent = ref Graph.GetNode(parentNodeId);
-		if (direction == LinkDirection.Undefined)
-			direction = (LinkDirection)Random.Next(0, 4);
 		var roomConfig = Config.GetRoom(roomId);
+		if (direction == LinkDirection.Undefined)
+			direction = roomConfig.GetLinkDirection(Random);
 		var hallId = roomConfig.GetHall(Random);
 		var hallConfig = Config.GetHall(hallId);
 		var (room, hall) = CreateLinkedRoom(in parent, direction, roomConfig, hallConfig);
@@ -50,7 +50,7 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 		return false;
 	}
 
-	public (DungeonRect Room, DungeonRect Hall) CreateLinkedRoom(in DungeonNode parentNode, LinkDirection direction, RoomConfig dstRoomConfig, HallConfig hallConfig)
+	private (DungeonRect Room, DungeonRect Hall) CreateLinkedRoom(in DungeonNode parentNode, LinkDirection direction, RoomConfig dstRoomConfig, HallConfig hallConfig)
 	{
 		var srcRoomConfig = Config.GetRoom(parentNode.RoomId);
 		var sourceRect = parentNode.Rect;
@@ -91,7 +91,7 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 		return (room, hall);
 	}
 
-	public bool IsValidRect(DungeonRect rect, RoomConfig roomConfig)
+	private bool IsValidRect(DungeonRect rect, RoomConfig roomConfig)
 	{
 		var roomCollision = roomConfig.Collision;
 		if (roomCollision is null)
@@ -120,7 +120,7 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 		return true;
 	}
 
-	public bool IsValidRect(DungeonRect rect)
+	private bool IsValidRect(DungeonRect rect)
 	{
 		if (!Bounds.Envelopes(rect))
 			return false;

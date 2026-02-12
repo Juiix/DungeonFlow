@@ -7,6 +7,7 @@ Room/Hall configs are the building blocks of each dungeon. They define the shape
   * `GetWidth` - The width of the room
   * `GetHeight` - The height of the room
   * `GetHall` - ID of a **HallConfig** that connects to this Room
+  * `GetLinkDirection` - Gets the next link direciton to walk
   * `GetLinkPosition` - Gets a local link starting position
   * `Collision` - An optional `CollisionMap` used for granular collision
 * **HallConfig**
@@ -26,8 +27,8 @@ Pre-built steps are:
 ```csharp
 // define rooms & halls
 RoomConfig[] rooms = [
-	new(r => r.Next(16, 16), r => r.Next(14, 16), r => 0, GetRandomHallPosition, null),
-	new(r => r.Next(18, 24), r => r.Next(18, 24), r => 0, GetRandomHallPosition, null),
+	new(r => r.Next(16, 16), r => r.Next(14, 16), r => 0, r => (LinkDirection)r.Next(0, 4), GetRandomHallPosition, null),
+	new(r => r.Next(18, 24), r => r.Next(18, 24), r => 0, r => (LinkDirection)r.Next(0, 4), GetRandomHallPosition, null),
 	new(r => 32, r => 32, r => 1, GetRandomHallPosition, null),
 ];
 HallConfig[] halls = [
