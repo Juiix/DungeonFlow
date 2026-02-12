@@ -2,11 +2,10 @@
 
 namespace DungeonFlow;
 
-public sealed class DeadEndStep(int minLength, int maxLength, int maxDepth, int chance, int[] roomIds, NodeQuery targets) : IGenerationStep
+public sealed class DeadEndStep(int minLength, int maxLength, int chance, int[] roomIds, NodeQuery targets) : IGenerationStep
 {
 	private readonly int _minLength = minLength;
 	private readonly int _maxLength = maxLength;
-	private readonly int _maxDepth = maxDepth;
 	private readonly int _chance = chance;
 	private readonly int[] _roomIds = roomIds;
 	private readonly NodeQuery _targets = targets;
@@ -28,7 +27,7 @@ public sealed class DeadEndStep(int minLength, int maxLength, int maxDepth, int 
 			var currentNodeId = _workingList[i];
 			var length = generator.Random.Next(_minLength, _maxLength + 1);
 			var depth = generator.Graph.GetNode(currentNodeId).Depth;
-			for (int j = 0; j < length && depth + 1 + j < _maxDepth; j++)
+			for (int j = 0; j < length; j++)
 			{
 				int tries = 0;
 				while (tries++ < 100)

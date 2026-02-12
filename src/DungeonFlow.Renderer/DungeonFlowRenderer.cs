@@ -25,7 +25,7 @@ namespace DungeonFlow.Renderer
 				new GoalStep(28, [2], [1], NodeQuery.First),
 				new GoalStep(14, [2], [1], NodeQuery.First),
 				new GoalStep(6, [2], [1], new NodeQuery(QueryDirection.Forward, 2, 4, 1)),
-				new DeadEndStep(1, 2, 13, 50, [1], new NodeQuery(QueryDirection.Forward, 1, 13, int.MaxValue))
+				new DeadEndStep(1, 2, 50, [1], new NodeQuery(QueryDirection.Forward, 1, 13, int.MaxValue))
 			];
 
 			var config = new DungeonConfig(i => rooms[i], i => halls[i]);

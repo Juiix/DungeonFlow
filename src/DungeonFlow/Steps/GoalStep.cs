@@ -1,34 +1,32 @@
 ﻿namespace DungeonFlow;
 
-public sealed class GoalStep(int maxDepth, int[] goalRoomIds, int[] pathRoomIds, NodeQuery target) : IGenerationStep
+public sealed class GoalStep(int length, int[] goalRoomIds, int[] pathRoomIds, NodeQuery target) : IGenerationStep
 {
-	private readonly int _maxDepth = maxDepth;
+	private readonly int _length = length;
 	private readonly int[] _goalRoomIds = goalRoomIds;
 	private readonly int[] _pathRoomIds = pathRoomIds;
 	private readonly NodeQuery _target = target;
-	private readonly ushort[] _path = new ushort[maxDepth + 1];
-	private readonly int[] _tries = new int[maxDepth + 1];
+	private readonly ushort[] _path = new ushort[length + 1];
+	private readonly int[] _tries = new int[length + 1];
 
 	public bool Run(DungeonGenerator generator)
 	{
 		int index = 0;
 		_tries[index] = 0;
 		_path[index] = generator.Graph.Query(_target).First();
-		int depth = generator.Graph.GetNode(_path[index]).Depth;
 
-		while (depth < _maxDepth)
+		while (index < _length)
 		{
 			var currentNodeId = _path[index];
 			if (_tries[index]++ >= 100)
 			{
 				if (--index < 0)
 					break;
-				depth--;
 				generator.Graph.RemoveNode(currentNodeId);
 				continue;
 			}
 
-			var roomIds = depth + 1 == _maxDepth
+			var roomIds = index + 1 == _length
 				? _goalRoomIds
 				: _pathRoomIds;
 			var roomId = roomIds[generator.Random.Next(0, roomIds.Length)];
@@ -36,11 +34,10 @@ public sealed class GoalStep(int maxDepth, int[] goalRoomIds, int[] pathRoomIds,
 				continue;
 
 			index++;
-			depth++;
 			_path[index] = nodeId;
 			_tries[index] = 0;
 		}
 
-		return depth == _maxDepth;
+		return index == _length;
 	}
 }
