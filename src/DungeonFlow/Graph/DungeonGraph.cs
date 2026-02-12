@@ -50,7 +50,7 @@ public sealed class DungeonGraph(int initialCapacity, DungeonInt2 size)
 		return ref node;
 	}
 
-	public ref DungeonLink AddLink(out ushort linkId, DungeonRect rect, int hallId, ushort parentNodeId, ushort childNodeId)
+	public ref DungeonLink AddLink(out ushort linkId, DungeonRect rect, int hallId, LinkDirection direction, ushort parentNodeId, ushort childNodeId)
 	{
 		var parentIndex = _nodeMap[parentNodeId];
 		var childIndex = _nodeMap[childNodeId];
@@ -72,7 +72,7 @@ public sealed class DungeonGraph(int initialCapacity, DungeonInt2 size)
 
 		parent[parent.LinkCount++] = linkId;
 		ref var link = ref _links[linkIndex];
-		link = new DungeonLink(rect, hallId, parentNodeId, childNodeId);
+		link = new DungeonLink(rect, hallId, direction, parentNodeId, childNodeId);
 		return ref link;
 	}
 

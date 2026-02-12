@@ -27,7 +27,7 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 		if (IsValidRect(room, roomConfig) && IsValidRect(hall))
 		{
 			Graph.AddNode(out nodeId, room, roomId, parentNodeId);
-			Graph.AddLink(out _, hall, hallId, parentNodeId, nodeId);
+			Graph.AddLink(out _, hall, hallId, direction, parentNodeId, nodeId);
 			return true;
 		}
 		nodeId = ushort.MaxValue;
