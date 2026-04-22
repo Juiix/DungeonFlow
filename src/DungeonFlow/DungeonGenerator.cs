@@ -18,9 +18,28 @@ public sealed class DungeonGenerator(DungeonConfig config, Random random)
 	public bool TryExpand(out ushort nodeId, int roomId, ushort parentNodeId, LinkDirection direction = LinkDirection.Undefined)
 	{
 		ref readonly var parent = ref Graph.GetNode(parentNodeId);
+		var parentConfig = Config.GetRoom(parent.RoomId);
 		var roomConfig = Config.GetRoom(roomId);
 		if (direction == LinkDirection.Undefined)
-			direction = roomConfig.GetLinkDirection(Random);
+		{
+			direction = parentConfig.AllowedDirections.PickRandom(Random);
+			if (direction == LinkDirection.Undefined)
+			{
+				nodeId = ushort.MaxValue;
+				return false;
+			}
+		}
+		else if (!parentConfig.AllowedDirections.Contains(direction))
+		{
+			nodeId = ushort.MaxValue;
+			return false;
+		}
+		var inverseDirection = (LinkDirection)(((int)direction + 2) % 4);
+		if (!roomConfig.AllowedDirections.Contains(inverseDirection))
+		{
+			nodeId = ushort.MaxValue;
+			return false;
+		}
 		var hallId = roomConfig.GetHall(Random);
 		var hallConfig = Config.GetHall(hallId);
 		var (room, hall) = CreateLinkedRoom(in parent, direction, roomConfig, hallConfig);
